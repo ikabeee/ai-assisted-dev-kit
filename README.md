@@ -8,13 +8,18 @@ The idea behind it: the model is a member of the team, not a search box. I write
 
 | Path | What it is |
 |------|------------|
-| `CLAUDE.md` | My global rules: engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
+| `CLAUDE.md` | My global rules: objective-driven work, engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
 | `skills/swarm-workflow/` | A Claude Code skill that routes work across harnesses (Claude, Codex, Antigravity, OpenCode). |
 | `skills/swarm-workflow/references/invocation.md` | Tested CLI commands per harness. |
 
 ## The workflow
 
+Work starts from a general objective, not from a single request. The general objective splits into specific objectives, one feature each, tracked in an objectives index (`odd/objectives.md`). Each feature runs through the flow below. When it closes, the index points to the next one and I start a fresh session, so every feature begins with a clean context and the quality stays the same from the first feature to the last.
+
 ```
+General objective ──► odd/objectives.md (specific objectives, one feature each)
+   │
+   ▼ one specific objective at a time
 Request
    │
    ├─ Small adjustment ──► Claude does it inline ──► focused test + suite ──► done
@@ -34,7 +39,11 @@ Request
          │             full test suite once
          7. COMMITS    Claude: ~400-line work units, Conventional Commits
          8. DELIVERY   me: push, PR and merge
+         9. CLOSE      Claude: updates the index, final Log entry with the next step
+                       → I start a fresh session for the next specific objective
 ```
+
+This objective layer is my own addition. I proposed it upstream in [gentle-ai#5715](https://github.com/Gentleman-Programming/gentle-ai/issues/5715), and the fresh session at feature close in [gentle-ai#5156](https://github.com/Gentleman-Programming/gentle-ai/issues/5156#issuecomment-6376616881).
 
 Ground rules:
 
@@ -42,7 +51,10 @@ Ground rules:
 - Only Claude runs git. Harnesses never commit.
 - Every API or technique is backed by the current official docs, with the URL cited.
 
-The coder → cleaner pipeline comes from Uncle Bob's [swarm-forge](https://github.com/unclebob/swarm-forge) "two-pack". I follow the process without its tooling.
+Credits:
+
+- The base workflow comes from Organic Driven Development (ODD) in [gentle-ai](https://github.com/Gentleman-Programming/gentle-ai): the inline path for small adjustments, feature documents with numbered specs, disjoint edit surfaces in a shared tree, and ~400-line work units.
+- The coder → cleaner pipeline comes from Uncle Bob's [swarm-forge](https://github.com/unclebob/swarm-forge) "two-pack". I follow the process without its tooling.
 
 ## Tool stack
 

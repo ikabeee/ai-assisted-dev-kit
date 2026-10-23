@@ -1,6 +1,12 @@
 # Multi-harness workflow
 - When splitting work across harnesses, load the `swarm-workflow` skill.
 
+# Objective-driven work
+- When I state a goal that spans several features, keep an objectives index in `odd/objectives.md`, mirrored in Engram: my general objective quoted verbatim, then an ordered list of specific objectives, each one linking to its feature document (`odd/tasks/<feature>.md`) with its status. It is an index, not a plan: specs and tasks stay in the feature documents.
+- One specific objective (one feature) at a time.
+- At feature close: update the index, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
+- A fresh session starts from the index and the next feature document.
+
 # Code rules (all projects)
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
 - Keep it as simple as possible: I must be able to read it easily and adjust it myself.
