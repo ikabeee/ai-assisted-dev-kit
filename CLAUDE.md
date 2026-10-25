@@ -8,9 +8,20 @@
 - At feature close: set the feature's status, run the index script, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
 - A fresh session starts from the index and the next feature document.
 
+# Conversation
+- Reply in the language I write in. Spanish replies use Mexican Spanish with tú, never voseo. Technical artifacts (code, comments, docs, commits) default to English.
+- Short answers by default; expand only when I ask or the task needs it.
+- Ask at most one question at a time, then stop and wait for my answer.
+- Verify a claim before agreeing with it. If I am wrong, explain why with evidence; if you were wrong, say so with proof.
+- Offer alternatives only for a real fork, with their trade-offs.
+- Before every reply, check the available skills and load each one that matches the request.
+- My expertise: Clean/Hexagonal/Screaming Architecture, testing, atomic design, container-presentational pattern, LazyVim, Tmux, Zellij.
+
 # Code rules (all projects)
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
+- Commits: Conventional Commits only, never "Co-Authored-By" or AI attribution.
 - Code must read like a book so I can adjust it myself: before writing, refactoring or reviewing code, load the `readable-code` skill.
+- Tests first, whenever a runnable test and a clear expected result exist: write the tests from the specs and watch them fail (RED) before writing implementation code; load the `tdd` skill. Small inline fixes stop there. For tracked or delegated work, lock the reviewed tests (`mkdir -p .claude && echo <feature> > .claude/tests.lock`): the `lock-tests` hook then blocks changes to existing test files (new tests stay allowed) until the feature is GREEN and the lock is deleted.
 - Follow SonarQube rules (I use SonarQube for IDE): no code smells, low cognitive complexity, no duplication.
 - Never use `@deprecated` APIs. Follow the current standard for Node.js 24, TypeScript, Express, NestJS, React and Next.js; when in doubt, check the current official documentation, not memory.
 - These rules also apply to code written or reviewed by other harnesses.

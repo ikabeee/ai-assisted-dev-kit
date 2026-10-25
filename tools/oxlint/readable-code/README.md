@@ -26,20 +26,7 @@ An Oxlint JS plugin plus a rule template that reject code slop: files that do no
 
 ## Lint on every agent edit (per machine)
 
-1. `mkdir -p ~/.claude/hooks && cp <kit>/hooks/lint-on-edit.ts ~/.claude/hooks/`
-2. Register it in `~/.claude/settings.json`:
-
-   ```json
-   {
-     "hooks": {
-       "PostToolUse": [
-         { "matcher": "Edit|Write", "hooks": [{ "type": "command", "command": "node ~/.claude/hooks/lint-on-edit.ts" }] }
-       ]
-     }
-   }
-   ```
-
-The hook lints only `.ts/.tsx/.mts/.cts/.js/.jsx/.mjs/.cjs` files in a project that has `.oxlintrc.json` and a local `node_modules/.bin/oxlint`; everywhere else it exits 0 and does nothing. On findings it exits 2, which shows stderr to Claude ([Hooks](https://code.claude.com/docs/en/hooks)).
+Install the `lint-on-edit` hook as [hooks/README.md](../../../hooks/README.md) shows. It lints each JS/TS file an agent edits in a project that has `.oxlintrc.json` and shows the findings to Claude.
 
 ## Caveats
 

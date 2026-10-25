@@ -13,4 +13,4 @@ Order and titles are edited by hand. The status after each " — " is derived fr
 3. Context guard mod: offer continue, compact or new session past a threshold (open: threshold) — not started
 4. swarm-workflow fixes: read-only tests for coders, bounded FEEDBACK, scratch cleanup — not started
 5. [Readable-code lint template: Oxlint rules, stepdown rule, lint-on-edit hook](tasks/readable-lint.md) — done
-6. Test-edit hook: block edits to tests during implementation — not started
+6. [Tests first, with tests locked during implementation](tasks/test-lock.md) — done

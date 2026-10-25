@@ -17,6 +17,7 @@ Model names and flags change often. Check each CLI's `--help` or model list befo
   - Prompt: the handoff (scope, invariants, named tests, reference commit), `## Allowed edit surfaces`, `## Skills to load before work` with the registry paths of `readable-code` and `tdd`, and the exact verification commands.
 - Accepted values ([Subagents](https://code.claude.com/docs/en/sub-agents)): `model` is `sonnet`, `opus`, `haiku`, `fable` or a full model ID; `effort` is `low`, `medium`, `high`, `xhigh` or `max`, depending on the model. The per-invocation `effort` parameter needs Claude Code v2.1.292 or later, and the `CLAUDE_CODE_EFFORT_LEVEL` environment variable overrides it.
 - Cost: each subagent starts with about 70K tokens of system context before reading any file (measured 2026-10-25). Give one subagent a whole unit of behavior, never a single file.
+- Tests first in two turns: launch the coder for the tests (RED). After review and lock, continue the same agent with `SendMessage` for the implementation, so it keeps its context instead of paying the base context again.
 - Subagents share the working tree and never commit; the parent owns git.
 - The five-hour and weekly usage limits are shared between claude.ai and Claude Code ([Use Claude Code with your Pro or Max plan](https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan)). When one is reached, route the remaining units to the harnesses below.
 

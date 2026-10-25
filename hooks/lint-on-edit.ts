@@ -4,9 +4,8 @@
 // Register it with matcher "Edit|Write" and command `node ~/.claude/hooks/lint-on-edit.ts`.
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
-import { dirname, extname, join, resolve } from 'node:path';
-
-type HookEvent = { cwd?: string; tool_input?: { file_path?: unknown } };
+import { dirname, extname, join } from 'node:path';
+import { editedFilePath, findFolderContaining } from './hook-input.ts';
 
 const LINTABLE_EXTENSIONS = new Set(['.ts', '.tsx', '.mts', '.cts', '.js', '.jsx', '.mjs', '.cjs']);
 const CONFIG_FILE = '.oxlintrc.json';
@@ -21,23 +20,9 @@ function lintEditedFile(hookInput: string): number {
   const filePath = editedFilePath(hookInput);
   if (filePath === undefined || !LINTABLE_EXTENSIONS.has(extname(filePath))) return PASS;
 
-  const projectRoot = findProjectRoot(dirname(filePath));
+  const projectRoot = findFolderContaining(dirname(filePath), CONFIG_FILE);
   if (projectRoot === undefined) return PASS;
   return runOxlint(projectRoot, filePath);
-}
-
-function editedFilePath(hookInput: string): string | undefined {
-  const event: HookEvent = JSON.parse(hookInput);
-  const filePath = event.tool_input?.file_path;
-  if (typeof filePath !== 'string') return undefined;
-  return resolve(event.cwd ?? process.cwd(), filePath);
-}
-
-function findProjectRoot(startDir: string): string | undefined {
-  for (let dir = startDir; ; dir = dirname(dir)) {
-    if (existsSync(join(dir, CONFIG_FILE))) return dir;
-    if (dirname(dir) === dir) return undefined;
-  }
 }
 
 // Uses the project's pinned oxlint, never npx, so an edit never downloads anything.
