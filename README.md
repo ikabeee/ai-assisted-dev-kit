@@ -11,7 +11,7 @@ The idea behind it: the model is a member of the team, not a search box. I write
 | `CLAUDE.md` | My global rules: objective-driven work, engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
 | `skills/readable-code/` | A skill that makes agents write code that reads like a book: Uncle Bob's stepdown rule plus scope, comment, boundary and type rules against AI code slop. |
 | `scripts/objectives-index.ts` | Derives each objective's status in `odd/objectives.md` from its feature document's front-matter, so the index never drifts. `--check` fails when it is stale. Node 24, no dependencies. |
-| `skills/swarm-workflow/` | A Claude Code skill that routes work across harnesses (Claude, Codex, Antigravity, OpenCode). |
+| `skills/swarm-workflow/` | A Claude Code skill that routes work across Claude subagents and harnesses (Codex, Antigravity, OpenCode), picking the coders by your Claude plan. |
 | `skills/swarm-workflow/references/invocation.md` | Tested CLI commands per harness. |
 
 ## The workflow
@@ -32,7 +32,8 @@ Request
          │             → I approve the plan
          2. HANDOFF    Claude Opus (xhigh): scope, invariants, named tests,
          │             edit surface per harness
-         3. CODER      Codex / Antigravity / OpenCode: TDD inside its edit surface
+         3. CODER      by Claude plan: Claude subagents (Max 5x/20x) or
+         │             Codex / Antigravity / OpenCode (Pro): TDD inside its edit surface
          │             (several in parallel when surfaces are disjoint)
          4. FEEDBACK   Claude Opus (medium): reviews the diff, tells the cleaner what to fix
          5. CLEANER    any harness: applies the feedback, no new behavior
