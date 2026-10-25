@@ -43,4 +43,4 @@ For tracked or delegated work. A small inline fix stops at RED → GREEN, withou
 |-----|------------|
 | Writes through Bash (`sed -i`, `>`), including deleting the lock | The diff review: in swarm-workflow, test files are outside the implementer's edit surface |
 | Harnesses other than Claude Code (Codex, Antigravity, OpenCode) do not run these hooks | The same diff review |
-| `lint-on-edit` needs the project's local `node_modules/.bin/oxlint` | Install the lint template first: [readable-code README](../tools/oxlint/readable-code/README.md) |
+| `lint-on-edit` needs the project's local `node_modules/.bin/oxlint` | Install the lint rules first: [eslint-plugin-readable-code](https://github.com/ikabeee/eslint-plugin-readable-code#quick-path-oxlint) |
