@@ -1,0 +1,21 @@
+{
+  "name": "ai-assisted-dev-kit",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.2.0"
+  },
+  "scripts": {
+    "test": "node --test",
+    "lint": "oxlint",
+    "typecheck": "tsc"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.89.0",
+    "@types/node": "24.19.2",
+    "eslint-plugin-sonarjs": "4.2.2",
+    "eslint-plugin-unicorn": "79.0.0",
+    "oxlint": "1.89.0",
+    "typescript": "6.0.3"
+  }
+}
