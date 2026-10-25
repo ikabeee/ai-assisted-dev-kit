@@ -13,12 +13,16 @@
     "react/jsx-max-depth": ["error", { "max": 6 }],
     "unicorn-js/consistent-boolean-name": "error",
     "sonarjs/cognitive-complexity": ["error", 15],
-    "sonarjs/no-identical-functions": "error"
+    "sonarjs/no-identical-functions": "error",
+    "readable-code/no-test-runner-branching": "error"
   },
   "overrides": [
     {
       "files": ["**/*.test.ts", "**/*.test.tsx"],
-      "rules": { "eslint/max-lines-per-function": "off" }
+      "rules": {
+        "eslint/max-lines-per-function": "off",
+        "readable-code/no-test-runner-branching": "off"
+      }
     }
   ]
 }

@@ -2,8 +2,11 @@
 // eslintCompatPlugin also makes it loadable from ESLint:
 // https://oxc.rs/docs/guide/usage/linter/writing-js-plugins.html
 import { eslintCompatPlugin } from '@oxlint/plugins';
+import { noTestRunnerBranchingRule } from './rules/no-test-runner-branching.ts';
 
 export default eslintCompatPlugin({
   meta: { name: 'readable-code' },
-  rules: {},
+  rules: {
+    'no-test-runner-branching': noTestRunnerBranchingRule,
+  },
 });
