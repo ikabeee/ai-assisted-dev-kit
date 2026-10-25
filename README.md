@@ -9,6 +9,7 @@ The idea behind it: the model is a member of the team, not a search box. I write
 | Path | What it is |
 |------|------------|
 | `CLAUDE.md` | My global rules: objective-driven work, engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
+| `skills/readable-code/` | A skill that makes agents write code that reads like a book: Uncle Bob's stepdown rule plus scope, comment, boundary and type rules against AI code slop. |
 | `skills/swarm-workflow/` | A Claude Code skill that routes work across harnesses (Claude, Codex, Antigravity, OpenCode). |
 | `skills/swarm-workflow/references/invocation.md` | Tested CLI commands per harness. |
 
@@ -72,7 +73,7 @@ These are third-party tools I use alongside the kit. They are not included here;
 
 ## Install
 
-1. Copy the skill: `cp -R skills/swarm-workflow ~/.claude/skills/`
+1. Copy the skills: `cp -R skills/readable-code skills/swarm-workflow ~/.claude/skills/`
 2. Merge the rules from `CLAUDE.md` into your own `~/.claude/CLAUDE.md`. Adapt the stack and preferences to yours.
 3. Edit `skills/swarm-workflow/references/invocation.md` with your own harnesses and models. Model names change often; check each CLI's help first.
 4. Start a new Claude Code session so it loads the changes.

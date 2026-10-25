@@ -9,7 +9,7 @@
 
 # Code rules (all projects)
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
-- Keep it as simple as possible: I must be able to read it easily and adjust it myself.
+- Code must read like a book so I can adjust it myself: before writing, refactoring or reviewing code, load the `readable-code` skill.
 - Follow SonarQube rules (I use SonarQube for IDE): no code smells, low cognitive complexity, no duplication.
 - Never use `@deprecated` APIs. Follow the current standard for Node.js 24, TypeScript, Express, NestJS, React and Next.js; when in doubt, check the current official documentation, not memory.
 - These rules also apply to code written or reviewed by other harnesses.
