@@ -32,7 +32,7 @@ Load when work beyond a small adjustment is split across harnesses (Claude, Code
 |------|---------|
 | Specs, handoffs, final quality gate | Claude Opus, effort `xhigh` |
 | UI/UX and visual design decisions | Claude Opus, effort `medium` |
-| Coder (TDD implementation) | By plan (see Hybrid routing): Claude subagents on Max 5x/20x; Codex, Antigravity or OpenCode on Pro. In parallel only when edit surfaces are disjoint |
+| Coder (tests first, then implementation with tests locked) | By plan (see Hybrid routing): Claude subagents on Max 5x/20x; Codex, Antigravity or OpenCode on Pro. In parallel only when edit surfaces are disjoint |
 | Implementation feedback (reviews the coder's diff, tells the cleaner what to fix) | Claude Opus, effort `medium` |
 | Cleaner (applies the feedback, no new behavior) | Any harness; the coder's own harness is fine |
 | Project indexing (graphify) | Codex |
@@ -41,11 +41,11 @@ Load when work beyond a small adjustment is split across harnesses (Claude, Code
 ## Execution Steps
 
 1. Write the handoff: scope, invariants, named tests, reference commit.
-2. Assign each harness its allowed edit surface (exact paths or narrow globs) in the handoff; scratch in `./tmp/`.
-3. Run the swarm-forge two-pack on top of gentle-ai's ODD flow. Claude specifies (feature document, `S#` specs); the coder implements with TDD and unit tests; Claude Opus (effort `medium`) reviews the implementation and sends feedback; the cleaner applies it, checks coverage and duplication, and must not add behavior. Every role reads the project's AGENTS.md as its shared constitution. Add architect, hardener (mutation testing) or QA passes only when the task touches a gentle-ai high-risk item. Do not install the original tooling (tmux, Babashka, daemon); follow the process only.
+2. Assign each harness its allowed edit surface (exact paths or narrow globs) in the handoff; during implementation, test files stay out of it. Scratch in `./tmp/`.
+3. Run the swarm-forge two-pack on top of gentle-ai's ODD flow, tests first. Claude specifies (feature document, `S#` specs); the coder writes the tests and shows them failing (RED); Claude reviews the tests against the specs and locks them (`.claude/tests.lock`, see the kit's `hooks/README.md`); the coder implements until GREEN without touching the tests and reports a wrong test instead of editing it; Claude Opus (effort `medium`) reviews the implementation and sends feedback; the cleaner applies it, checks coverage and duplication, and must not add behavior. Every role reads the project's AGENTS.md as its shared constitution. Add architect, hardener (mutation testing) or QA passes only when the task touches a gentle-ai high-risk item. Do not install the original tooling (tmux, Babashka, daemon); follow the process only.
 4. Launch each coder (subagent or harness) as `references/invocation.md` describes.
 5. Check each harness's diff stays inside its edit surface and meets the handoff and quality gate.
-6. Run one seam check at the end (the full suite, once), then commit the work units.
+6. Run one seam check at the end (the full suite, once), delete `.claude/tests.lock`, then commit the work units.
 
 ## Output Contract
 
