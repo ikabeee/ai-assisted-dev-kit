@@ -2,14 +2,15 @@
 - When splitting work across harnesses, load the `swarm-workflow` skill.
 
 # Objective-driven work
-- When I state a goal that spans several features, keep an objectives index in `odd/objectives.md`, mirrored in Engram: my general objective quoted verbatim, then an ordered list of specific objectives, each one linking to its feature document (`odd/tasks/<feature>.md`) with its status. It is an index, not a plan: specs and tasks stay in the feature documents.
+- When I state a goal that spans several features, keep an objectives index in `odd/objectives.md`, mirrored in Engram: my general objective quoted verbatim, then an ordered list of specific objectives (`1. [Title](tasks/<feature>.md)`), each one linking to its feature document (`odd/tasks/<feature>.md`). It is an index, not a plan: specs and tasks stay in the feature documents.
+- Status has one source of truth: each feature document starts with front-matter `status: pending | in-progress | done`. The index shows it after " — ", derived by `node ~/.claude/scripts/objectives-index.ts odd/objectives.md`; never edit it by hand (`--check` exits 1 when the index is stale).
 - One specific objective (one feature) at a time.
-- At feature close: update the index, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
+- At feature close: set the feature's status, run the index script, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
 - A fresh session starts from the index and the next feature document.
 
 # Code rules (all projects)
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
-- Keep it as simple as possible: I must be able to read it easily and adjust it myself.
+- Code must read like a book so I can adjust it myself: before writing, refactoring or reviewing code, load the `readable-code` skill.
 - Follow SonarQube rules (I use SonarQube for IDE): no code smells, low cognitive complexity, no duplication.
 - Never use `@deprecated` APIs. Follow the current standard for Node.js 24, TypeScript, Express, NestJS, React and Next.js; when in doubt, check the current official documentation, not memory.
 - These rules also apply to code written or reviewed by other harnesses.

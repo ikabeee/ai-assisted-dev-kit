@@ -9,7 +9,9 @@ The idea behind it: the model is a member of the team, not a search box. I write
 | Path | What it is |
 |------|------------|
 | `CLAUDE.md` | My global rules: objective-driven work, engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
-| `skills/swarm-workflow/` | A Claude Code skill that routes work across harnesses (Claude, Codex, Antigravity, OpenCode). |
+| `skills/readable-code/` | A skill that makes agents write code that reads like a book: Uncle Bob's stepdown rule plus scope, comment, boundary and type rules against AI code slop. |
+| `scripts/objectives-index.ts` | Derives each objective's status in `odd/objectives.md` from its feature document's front-matter, so the index never drifts. `--check` fails when it is stale. Node 24, no dependencies. |
+| `skills/swarm-workflow/` | A Claude Code skill that routes work across Claude subagents and harnesses (Codex, Antigravity, OpenCode), picking the coders by your Claude plan. |
 | `skills/swarm-workflow/references/invocation.md` | Tested CLI commands per harness. |
 
 ## The workflow
@@ -30,7 +32,8 @@ Request
          │             → I approve the plan
          2. HANDOFF    Claude Opus (xhigh): scope, invariants, named tests,
          │             edit surface per harness
-         3. CODER      Codex / Antigravity / OpenCode: TDD inside its edit surface
+         3. CODER      by Claude plan: Claude subagents (Max 5x/20x) or
+         │             Codex / Antigravity / OpenCode (Pro): TDD inside its edit surface
          │             (several in parallel when surfaces are disjoint)
          4. FEEDBACK   Claude Opus (medium): reviews the diff, tells the cleaner what to fix
          5. CLEANER    any harness: applies the feedback, no new behavior
@@ -39,7 +42,7 @@ Request
          │             full test suite once
          7. COMMITS    Claude: ~400-line work units, Conventional Commits
          8. DELIVERY   me: push, PR and merge
-         9. CLOSE      Claude: updates the index, final Log entry with the next step
+         9. CLOSE      Claude: runs the index script, final Log entry with the next step
                        → I start a fresh session for the next specific objective
 ```
 
@@ -72,10 +75,11 @@ These are third-party tools I use alongside the kit. They are not included here;
 
 ## Install
 
-1. Copy the skill: `cp -R skills/swarm-workflow ~/.claude/skills/`
-2. Merge the rules from `CLAUDE.md` into your own `~/.claude/CLAUDE.md`. Adapt the stack and preferences to yours.
-3. Edit `skills/swarm-workflow/references/invocation.md` with your own harnesses and models. Model names change often; check each CLI's help first.
-4. Start a new Claude Code session so it loads the changes.
+1. Copy the skills: `cp -R skills/readable-code skills/swarm-workflow ~/.claude/skills/`
+2. Copy the index script: `mkdir -p ~/.claude/scripts && cp scripts/objectives-index.ts ~/.claude/scripts/`. Its tests run with `node --test 'scripts/*.test.ts'`.
+3. Merge the rules from `CLAUDE.md` into your own `~/.claude/CLAUDE.md`. Adapt the stack and preferences to yours.
+4. Edit `skills/swarm-workflow/references/invocation.md` with your own harnesses and models. Model names change often; check each CLI's help first.
+5. Start a new Claude Code session so it loads the changes.
 
 ## License
 
