@@ -1,8 +1,8 @@
-// Claude Code PreToolUse hook: while <project>/.claude/tests.lock exists, blocks writes to test files,
-// so the agent makes the reviewed tests pass instead of editing them.
+// Claude Code PreToolUse hook: while <project>/.claude/tests.lock exists, blocks changes to existing test files,
+// so the agent makes the reviewed tests pass instead of editing them. New test files stay allowed.
 // Exit 2 blocks the tool call and shows stderr to Claude: https://code.claude.com/docs/en/hooks
 // Register it with matcher "Edit|Write" and command `node ~/.claude/hooks/lock-tests.ts`.
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { basename, dirname, join, relative, sep } from 'node:path';
 import { editedFilePath, findFolderContaining } from './hook-input.ts';
 
@@ -18,7 +18,8 @@ if (import.meta.main) {
 
 function guardTestFiles(hookInput: string): number {
   const filePath = editedFilePath(hookInput);
-  if (filePath === undefined) return ALLOW;
+  // A new file is never a reviewed test: ODD pins regressions and verifier probes with new tests.
+  if (filePath === undefined || !existsSync(filePath)) return ALLOW;
 
   const projectRoot = findFolderContaining(dirname(filePath), LOCK_FILE);
   if (projectRoot === undefined || !isTestFile(relative(projectRoot, filePath))) return ALLOW;

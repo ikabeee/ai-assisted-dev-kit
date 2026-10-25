@@ -21,7 +21,7 @@
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
 - Commits: Conventional Commits only, never "Co-Authored-By" or AI attribution.
 - Code must read like a book so I can adjust it myself: before writing, refactoring or reviewing code, load the `readable-code` skill.
-- Tests first: for every feature or bugfix, write the tests from the specs and watch them fail (RED) before writing implementation code; load the `tdd` skill. After the tests are reviewed, lock them (`mkdir -p .claude && echo <feature> > .claude/tests.lock`): the `lock-tests` hook then blocks test edits until the feature is GREEN and the lock is deleted.
+- Tests first, whenever a runnable test and a clear expected result exist: write the tests from the specs and watch them fail (RED) before writing implementation code; load the `tdd` skill. Small inline fixes stop there. For tracked or delegated work, lock the reviewed tests (`mkdir -p .claude && echo <feature> > .claude/tests.lock`): the `lock-tests` hook then blocks changes to existing test files (new tests stay allowed) until the feature is GREEN and the lock is deleted.
 - Follow SonarQube rules (I use SonarQube for IDE): no code smells, low cognitive complexity, no duplication.
 - Never use `@deprecated` APIs. Follow the current standard for Node.js 24, TypeScript, Express, NestJS, React and Next.js; when in doubt, check the current official documentation, not memory.
 - These rules also apply to code written or reviewed by other harnesses.

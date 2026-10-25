@@ -126,9 +126,14 @@ An optional, deterministic **test lock** for tracked ODD work. The small path is
 1. **RED.** The writer writes tests from the feature document's `S#` and observes RED (unchanged).
 2. **Review.** The parent reviews those tests against the specs (the oracle check #5092 describes).
 3. **Lock.** On approval, the parent creates a lock file that records the feature, the task and the base commit, and logs it in the feature document's `## Log`.
-4. **Implement.** While the lock exists, a pre-tool-call hook denies edits to test files with a fixed message: make the existing tests pass without changing them; if a test looks wrong, stop and report the test and the reason to the parent. On Claude Code this is `PreToolUse` on `Edit|Write`. Exit 2 "Blocks the tool call", and the docs say settings hooks "also run inside subagents", so delegated writers are covered too.
+4. **Implement.** While the lock exists, a pre-tool-call hook denies changes to existing test files with a fixed message: make the existing tests pass without changing them; if a test looks wrong, stop and report the test and the reason to the parent. On Claude Code this is `PreToolUse` on `Edit|Write`. Exit 2 "Blocks the tool call", and the docs say settings hooks "also run inside subagents", so delegated writers are covered too. Creating a new test file stays allowed, so ODD's regressions ("pin with a test") and the verifier's step ("The writer commits the probes as regression tests") keep working under the lock.
 5. **Wrong test.** This is the proportional remedy that gentle-shell#1347 found missing. The parent decides (and asks the user when a spec is in question), unlocks, fixes the test, reviews it, relocks, and logs the change. The unlock is owned by the parent or the user, never by a marker the model can write (the reasoning in gentle-shell `odd/tasks/r1-review-advisories.md`).
 6. **GREEN and close.** The parent checks that the test files are unchanged since the base commit recorded in the lock (for example `git diff --quiet <base> -- <test paths>`), then removes the lock. This check also catches writes the hook cannot see.
+
+Why this stays within ODD's proportionality:
+- #5092 sets the bar: "No new toggle, mandatory agent, persistent artifact or review-authority mechanism is introduced." The lock adds no agent and no review authority. Its file is git-ignored runtime state, deleted at close, and never part of a review candidate. It is a toggle, so it is opt-in and only for tracked or delegated work: "Small work stays inline and creates no durable task artifacts" stays true.
+- gentle-shell#1354 removed a refusal because it had "no proportional remedy". Here the remedy is one step: the agent reports the test, and the parent or the user unlocks.
+- The same writer writes the tests and the code, as ODD requires ("never split one behavior into test, docs, and code writers").
 
 Delivery per runtime:
 - **Claude Code:** a managed `PreToolUse` hook next to the existing review and telemetry hooks.
@@ -151,12 +156,12 @@ Known limits, to state in the docs:
 
 ### 📎 Additional Context
 
-Reference implementation (Claude Code only): `hooks/lock-tests.ts` in my AI-assisted development kit (<link once pushed>). It is about 40 lines of Node: `PreToolUse` on `Edit|Write`, a `.claude/tests.lock` file, test files matching `*.test.*`, `*.spec.*` or a `__tests__/`, `test/` or `tests/` folder, and exit 2 with the message above. Checked live: an edit to a locked test was blocked and the file hash did not change.
+Reference implementation (Claude Code only): `hooks/lock-tests.ts` in my AI-assisted development kit (<link once pushed>). It is about 40 lines of Node: `PreToolUse` on `Edit|Write`, a `.claude/tests.lock` file, test files matching `*.test.*`, `*.spec.*` or a `__tests__/`, `test/` or `tests/` folder, and exit 2 with the message above on a change to an existing test file; new test files are allowed. Checked live: an edit to a locked test was blocked and the file hash did not change.
 
 Open questions for maintainers:
 - **Lock location.** `.claude/tests.lock` is Claude-specific. Should it be a runtime-neutral, git-ignored file (for example under `odd/`), or state outside the worktree? It must never become part of a review candidate.
 - **Test paths.** Should it reuse gentle-shell's `TEST_PATH_PATTERNS` as the single list (it already includes `_test.go` and `test_*.py`)? Are golden files and `testdata/` locked too? gentle-ai's own routing goldens change whenever routing text changes.
-- **Granularity.** Lock per task or per feature? Should the lock name a manifest of the reviewed files, so a later task can still add new RED tests?
+- **Granularity.** Lock per task or per feature? New test files are already allowed, so a later task can add RED tests; is "existing files are frozen" enough, or should the lock name a manifest of the reviewed files?
 - **Ownership.** Who creates and removes the lock: the parent only? A small CLI (`gentle-ai odd lock|unlock`) would keep the hook, the record and the close-time diff in one implementation.
 - **RDD interaction.** A native correction or the verifier's "The writer commits the probes as regression tests" step may need to edit tests. Do those run unlocked, or does the lock exempt them?
 - **Defaults.** Opt-in or on for tracked work? Fail-open, or `onFailure: "block"`?
