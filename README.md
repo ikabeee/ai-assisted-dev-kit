@@ -10,7 +10,7 @@ The idea behind it: the model is a member of the team, not a search box. I write
 |------|------------|
 | `CLAUDE.md` | My global rules: objective-driven work, conversation (language, one question at a time, verify before agreeing), engineering-level explanations, tests first, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
 | `skills/readable-code/` | A skill that makes agents write code that reads like a book: Uncle Bob's stepdown rule plus scope, comment, boundary and type rules against AI code slop. |
-| `.oxlintrc.json` + `tools/oxlint/readable-code/` | Lint template and Oxlint plugin against code slop: stepdown order, function size and depth, boolean names, copied functions, test special-casing. The kit lints itself with it. See [its README](tools/oxlint/readable-code/README.md). |
+| `.oxlintrc.json` | The kit lints itself with [eslint-plugin-readable-code](https://github.com/ikabeee/eslint-plugin-readable-code), my lint rules against AI code slop (stepdown order, function size and depth, copied functions, test special-casing), plus `unicorn-js/consistent-boolean-name`. |
 | `hooks/` | Claude Code hooks: `lint-on-edit` lints each JS/TS file an agent edits and shows the findings to Claude; `lock-tests` blocks test edits while `.claude/tests.lock` exists, so reviewed tests stay fixed during implementation. See [hooks/README.md](hooks/README.md). |
 | `scripts/objectives-index.ts` | Derives each objective's status in `odd/objectives.md` from its feature document's front-matter, so the index never drifts. `--check` fails when it is stale. Node 24, no dependencies. |
 | `skills/swarm-workflow/` | A Claude Code skill that routes work across Claude subagents and harnesses (Codex, Antigravity, OpenCode), picking the coders by your Claude plan. |
@@ -81,7 +81,7 @@ These are third-party tools I use alongside the kit. They are not included here;
 
 1. Copy the skills: `cp -R skills/readable-code skills/swarm-workflow ~/.claude/skills/`
 2. Copy the index script: `mkdir -p ~/.claude/scripts && cp scripts/objectives-index.ts ~/.claude/scripts/`.
-3. Copy the hooks and register them, as [hooks/README.md](hooks/README.md) shows. Each project that wants the lint rules follows the [lint template README](tools/oxlint/readable-code/README.md)'s quick path.
+3. Copy the hooks and register them, as [hooks/README.md](hooks/README.md) shows. Each project that wants the lint rules follows the quick path of [eslint-plugin-readable-code](https://github.com/ikabeee/eslint-plugin-readable-code#quick-path-oxlint).
 4. Merge the rules from `CLAUDE.md` into your own `~/.claude/CLAUDE.md`. Adapt the stack and preferences to yours.
 5. Edit `skills/swarm-workflow/references/invocation.md` with your own harnesses and models. Model names change often; check each CLI's help first.
 6. Start a new Claude Code session so it loads the changes.
