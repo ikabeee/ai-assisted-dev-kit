@@ -83,14 +83,9 @@ Nearest prior art:
 | gentle-shell#2290 / #2289, gentle-shell#1354 / #1347 | Merged / closed | The existing test-path gate on Pi, and the retired disproportionate gate |
 | #2026, #4920 | Open | Benchmarks; #5092 coordinates its evaluation with them |
 
-## 3. Draft issue (DRAFT, not yet posted)
+## 3. Issue (posted)
 
-Posting is the user's decision. Before posting:
-
-1. Push `feat/test-lock` in ikabeee/ai-assisted-dev-kit and replace the reference-implementation placeholder with the link.
-2. Re-check that no duplicate appeared since 2026-10-25.
-
-The section headings below are the labels of the repo's `feature_request.yml` form. "Affected Area" is a dropdown; pick "Other".
+Posted on 2026-10-25 as [gentle-ai#5747](https://github.com/Gentleman-Programming/gentle-ai/issues/5747). The section headings below are the labels of the repo's `feature_request.yml` form.
 
 **Title:** `feat(odd): keep reviewed tests read-only during implementation with a deterministic lock`
 
