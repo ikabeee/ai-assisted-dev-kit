@@ -19,7 +19,7 @@
 
 # Code rules (all projects)
 - I am a software engineer: always talk to me in precise engineering terms. On every iteration, explain technically what you are doing and why (decisions, APIs used, trade-offs). No unexplained changes.
-- Commits: Conventional Commits only, never "Co-Authored-By" or AI attribution.
+- Commits, PRs and issues: Conventional Commits only, and never "Co-Authored-By", "Generated with Claude Code" or any other AI attribution line.
 - Code must read like a book so I can adjust it myself: before writing, refactoring or reviewing code, load the `readable-code` skill.
 - Tests first, whenever a runnable test and a clear expected result exist: write the tests from the specs and watch them fail (RED) before writing implementation code; load the `tdd` skill. Small inline fixes stop there. For tracked or delegated work, lock the reviewed tests (`mkdir -p .claude && echo <feature> > .claude/tests.lock`): the `lock-tests` hook then blocks changes to existing test files (new tests stay allowed) until the feature is GREEN and the lock is deleted.
 - Follow SonarQube rules (I use SonarQube for IDE): no code smells, low cognitive complexity, no duplication.
