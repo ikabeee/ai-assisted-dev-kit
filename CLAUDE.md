@@ -2,9 +2,10 @@
 - When splitting work across harnesses, load the `swarm-workflow` skill.
 
 # Objective-driven work
-- When I state a goal that spans several features, keep an objectives index in `odd/objectives.md`, mirrored in Engram: my general objective quoted verbatim, then an ordered list of specific objectives, each one linking to its feature document (`odd/tasks/<feature>.md`) with its status. It is an index, not a plan: specs and tasks stay in the feature documents.
+- When I state a goal that spans several features, keep an objectives index in `odd/objectives.md`, mirrored in Engram: my general objective quoted verbatim, then an ordered list of specific objectives (`1. [Title](tasks/<feature>.md)`), each one linking to its feature document (`odd/tasks/<feature>.md`). It is an index, not a plan: specs and tasks stay in the feature documents.
+- Status has one source of truth: each feature document starts with front-matter `status: pending | in-progress | done`. The index shows it after " — ", derived by `node ~/.claude/scripts/objectives-index.ts odd/objectives.md`; never edit it by hand (`--check` exits 1 when the index is stale).
 - One specific objective (one feature) at a time.
-- At feature close: update the index, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
+- At feature close: set the feature's status, run the index script, name the next specific objective, and record the outcome, pending checks and next step in the feature document's final `## Log` entry (that is the handoff; no extra file). Then tell me it is a safe point to start a fresh session. If I keep going, keep going.
 - A fresh session starts from the index and the next feature document.
 
 # Code rules (all projects)

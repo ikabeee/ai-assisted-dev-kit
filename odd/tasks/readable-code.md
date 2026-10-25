@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # readable-code
 
 Objective: a skill that makes agents write code that reads like a book. Branch: `feat/readable-code`. Delivery: single commit. Test runner: none (passive documentation; structural readback).

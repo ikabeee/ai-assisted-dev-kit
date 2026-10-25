@@ -6,10 +6,10 @@
 
 ## Specific objectives
 
-| # | Objective | Feature document | Status |
-|---|-----------|------------------|--------|
-| 1 | Readable-code skill: stepdown rule + anti-slop rules | [readable-code](tasks/readable-code.md) | done |
-| 2 | Ambiguity gate: rewrite or guided interview for vague change requests | — | pending |
-| 3 | Context guard mod: offer continue / compact / new session past a threshold | — | pending (open: threshold) |
-| 4 | swarm-workflow fixes: read-only tests for coders, bounded FEEDBACK, scratch cleanup | — | pending |
-| 5 | Deterministic layer: lint template and test-edit hook | — | pending |
+Order and titles are edited by hand. The status after each " — " is derived from the feature document's front-matter by `scripts/objectives-index.ts`.
+
+1. [Readable-code skill: stepdown rule + anti-slop rules](tasks/readable-code.md) — done
+2. Ambiguity gate: rewrite or guided interview for vague change requests — not started
+3. Context guard mod: offer continue, compact or new session past a threshold (open: threshold) — not started
+4. swarm-workflow fixes: read-only tests for coders, bounded FEEDBACK, scratch cleanup — not started
+5. Deterministic layer: lint template and test-edit hook — not started
