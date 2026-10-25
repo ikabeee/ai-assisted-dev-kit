@@ -8,7 +8,7 @@ The idea behind it: the model is a member of the team, not a search box. I write
 
 | Path | What it is |
 |------|------------|
-| `CLAUDE.md` | My global rules: objective-driven work, engineering-level explanations, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
+| `CLAUDE.md` | My global rules: objective-driven work, conversation (language, one question at a time, verify before agreeing), engineering-level explanations, tests first, SonarQube, no deprecated APIs, cite the docs, guidance outside my usual stack, visual style iteration. |
 | `skills/readable-code/` | A skill that makes agents write code that reads like a book: Uncle Bob's stepdown rule plus scope, comment, boundary and type rules against AI code slop. |
 | `.oxlintrc.json` + `tools/oxlint/readable-code/` | Lint template and Oxlint plugin against code slop: stepdown order, function size and depth, boolean names, copied functions, test special-casing. The kit lints itself with it. See [its README](tools/oxlint/readable-code/README.md). |
 | `hooks/` | Claude Code hooks: `lint-on-edit` lints each JS/TS file an agent edits and shows the findings to Claude; `lock-tests` blocks test edits while `.claude/tests.lock` exists, so reviewed tests stay fixed during implementation. See [hooks/README.md](hooks/README.md). |
