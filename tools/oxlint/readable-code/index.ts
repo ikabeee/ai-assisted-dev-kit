@@ -3,10 +3,12 @@
 // https://oxc.rs/docs/guide/usage/linter/writing-js-plugins.html
 import { eslintCompatPlugin } from '@oxlint/plugins';
 import { noTestRunnerBranchingRule } from './rules/no-test-runner-branching.ts';
+import { stepdownOrderRule } from './rules/stepdown-order.ts';
 
 export default eslintCompatPlugin({
   meta: { name: 'readable-code' },
   rules: {
+    'stepdown-order': stepdownOrderRule,
     'no-test-runner-branching': noTestRunnerBranchingRule,
   },
 });
