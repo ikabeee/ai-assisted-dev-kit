@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: done
 ---
 
 # readable-lint
@@ -24,7 +24,7 @@ Objective: a lint template that stops code slop and keeps code readable by human
 | T2 | S2 | delegated: Sonnet coder (swarm-workflow, parallel with T3) | done (18/18 tests; feedback: helpers reordered by call order) | see git log |
 | T3 | S4 | delegated: Sonnet coder (swarm-workflow, parallel with T2) | done (30/30 tests; feedback: approved, no cleaner) | see git log |
 | T4 | S6 | inline | done (4/4 tests; e2e: real hook + oxlint exit 2) | see git log |
-| T5 | S7 | inline | pending | — |
+| T5 | S7 | inline | done (README, plugin README, skill criterion 6, global install) | see git log |
 
 ## Log
 
@@ -33,3 +33,4 @@ Objective: a lint template that stops code slop and keeps code readable by human
 - L3 (2026-10-25, T1): The kit's root `.oxlintrc.json` is both the template and the kit's own config; the plugin lives at `tools/oxlint/readable-code/`, the same path projects use, so one file serves both. Setting `plugins` replaces the base set (eslint, unicorn, oxc, typescript), so `react` is listed with them; `react` and `unicorn` are reserved names, so the JS unicorn plugin is aliased `unicorn-js`. Probe on fixtures: `max-lines-per-function`, `max-depth`, `max-params`, `react/jsx-max-depth`, `unicorn-js/consistent-boolean-name`, `sonarjs/cognitive-complexity` and `sonarjs/no-identical-functions` fire under Oxlint 1.89. `sonarjs/no-commented-code` fired neither under Oxlint nor ESLint 10.13 (rule enabled per `--print-config`), so it is dropped. sonarjs fails to load with TypeScript 7.0.2 (`ts.TypeFlags` is undefined in TS 7's JS API, `ts-api-utils` crashes), independent of Oxlint: the kit pins TypeScript 6.0.3. `eslint-plugin-unicorn@79` has peer `eslint >=10.4`, so npm installs ESLint 10 alongside; projects pinned to ESLint 9 get a peer conflict. Checks: `npm test` 5/5, `npm run typecheck` exit 0, `npm run lint` 0 diagnostics on 3 files.
 - L4 (2026-10-25, T3+T4): T3 coder (Sonnet 5.5, effort high) returned RED 11/30 then GREEN 30/30; feedback approved without a cleaner pass (only nit: double quotes vs the kit's single quotes, no formatter in the kit). The rule is off in `**/*.test.ts(x)` via overrides. T4 hook: RED 0/4 then GREEN 4/4 with an oxlint stub; e2e with the real hook and oxlint on a probe file returned exit 2 and the `no-test-runner-branching` message on stderr. Optional chaining (`process?.env?.VITEST`) is not detected; spec S4 lists dot and computed access only.
 - L5 (2026-10-25, T2): T2 coder (Sonnet 5.5, effort high) returned RED 9/18 then GREEN 18/18. It resolves edges through `getDeclaredVariables` + `variable.references` (shadowed names never match), filters `TSTypeReference`/`TSTypeQuery` parents, and drops cycles with an iterative DFS. Feedback: approved; the parent, as cleaner, reordered helpers into call order (`collectUnits` before `findCalleesAboveFirstCaller`, `firstCaller` last) and moved `type Candidate` to the top. Coder scratch removed. Seam check: `npm test` 57/57, `npm run typecheck` exit 0, `oxlint` on the kit 9 files / 136 rules / 0 diagnostics (the kit passes its own stepdown rule). E2E: the real hook on the `parseRow`/`importCsv` probe returned exit 2 with the stepdown message.
+- L6 (2026-10-25, close): Outcome: Oxlint template + `readable-code` plugin (`stepdown-order`, `no-test-runner-branching`) + `lint-on-edit` PostToolUse hook, docs in `tools/oxlint/readable-code/README.md`, and `readable-code` skill criterion 6 (run oxlint). Installed globally: `~/.claude/hooks/lint-on-edit.ts`, PostToolUse `Edit|Write` entry merged into `~/.claude/settings.json` (diff showed only the added block; `jq -e` exit 0), updated skill copy. Live proof in this session: a Write with a callee above its caller got the hook's stepdown error; the corrected Write passed silently. Final checks: `npm test` 57/57, `npm run typecheck` exit 0, `npm run lint` 0 diagnostics. Pending: install the template in each project (ut-e3 is on ESLint 9, so drop the `unicorn-js` rule there or upgrade ESLint); push/PR are the user's. Next objective: 6, test-edit hook.

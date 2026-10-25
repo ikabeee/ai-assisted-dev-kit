@@ -43,3 +43,4 @@ Before reporting done, read every changed file top to bottom and confirm each it
 3. Each name is understood without opening its body.
 4. No meaning is duplicated across the change and the existing code (search for it).
 5. The diff contains only the requested scope.
+6. When the project has `.oxlintrc.json`, `node_modules/.bin/oxlint <changed files>` exits 0.
